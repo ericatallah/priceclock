@@ -12,6 +12,7 @@ html, body, #root, #app {
   font-family: 'digital-clock';
   display: flex;
   align-items: center;
+  background: #444;
 }
 
 #center {
@@ -28,7 +29,7 @@ html, body, #root, #app {
 #clock {
   display: flex;
   justify-content: space-between;
-  padding: 1.75rem 1.2rem 4.5rem;
+  padding: 1.75rem 1.2rem 5.5rem;
   background: #181619;
   color: #d1d1d1;
   border: 1px solid #AEA478;
@@ -37,11 +38,11 @@ html, body, #root, #app {
 }
 
 #clock .digit {
-  line-height: 0.75;
-  padding-bottom: 30px;
-  width: 75px;
+  line-height: 0.7;
+  padding-bottom: 45px;
+  width: 88px;
   text-align: center;
-  font-size: 10rem;
+  font-size: 11.5rem;
   border: 1px solid #AEA478;
   border-radius: 10px;
 }
@@ -51,9 +52,9 @@ html, body, #root, #app {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 17px;
+  bottom: 20px;
   margin: 0 auto;
-  font-size: 2rem;
+  font-size: 3rem;
 }
 
 #clock h2 span {
@@ -64,11 +65,11 @@ html, body, #root, #app {
 
 #rune {
   position: absolute;
-  font-size: 1.75rem;
-  line-height: 1;
-  padding: 0 5px 5px;
+  font-size: 2.5rem;
+  line-height: 0.8;
+  padding: 0 5px 9px;
   border-radius: 6px;
-  bottom: 20px;
+  bottom: 23px;
   right: 20px;
   box-sizing: border-box;
   text-align: right;
