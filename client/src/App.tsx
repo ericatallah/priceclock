@@ -44,7 +44,7 @@ function App() {
     updatePrices();
   },[]);
 
-  useInterval(updatePrices, 30000);
+  useInterval(updatePrices, 60000);
 
   return (
     <div id="app">
