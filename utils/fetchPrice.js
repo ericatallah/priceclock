@@ -8,18 +8,38 @@ const {
   COINBASE_DATA_URL,
   CMC_DATA_URL,
   NOMICS_DATA_URL,
+  COIN_GECKO_DATA_URL,
 } = require('./constants');
 
 // cache prices in memory
 const cachedBtcPrices = {
   nomics: 0,
   coinbase: 0,
-  cmc: 0
+  cmc: 0,
+  coingecko: 0,
 };
 const cachedRunePrices = {
   nomics: 0,
-  cmc: 0
+  cmc: 0,
 };
+
+async function getCoinGeckoPrice() {
+  try {
+    const resp = await fetch(COIN_GECKO_DATA_URL);
+    const data = await resp.json();
+    const prices = parseCoinGeckoPrices(data);
+
+    if (prices.BTC) {
+      cachedBtcPrices.coingecko = prices.BTC;
+    }
+
+    return prices;
+  } catch (e) {
+    console.log('Error retrieving Nomics price data: ', e);
+    // use cached prices instead
+    return { BTC: cachedBtcPrices.coingecko };
+  }
+}
 
 async function getCmcPrice() {
   try {
@@ -69,11 +89,13 @@ async function getCoinbasePrice() {
   try {
     const resp = await fetch(COINBASE_DATA_URL);
     const data = await resp.json();
-    const price = parseCbPrices(data);
+    const prices = parseCbPrices(data);
 
-    if (price) cachedBtcPrices.coinbase = price
+    if (prices.BTC) {
+      cachedBtcPrices.coinbase = prices.BTC;
+    }
 
-    return { BTC: price };
+    return prices;
   } catch (e) {
     console.log('Error retrieving Coinbase price data: ', e);
     // use cached price instead
@@ -81,4 +103,4 @@ async function getCoinbasePrice() {
   }
 }
 
-module.exports = [getCmcPrice, getNomicsPrice, getCoinbasePrice];
+module.exports = [getCoinGeckoPrice, getCmcPrice, getNomicsPrice, getCoinbasePrice];

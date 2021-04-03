@@ -1,5 +1,5 @@
 module.exports = {
-  parseCbPrices: (json) => json && json.data && +json.data.amount,
+  parseCbPrices: (json) => json && json.data && { BTC: +json.data.amount },
   parseNomicsPrices: (json) => {
     const prices = {};
     json.forEach((item) => {
@@ -16,6 +16,6 @@ module.exports = {
     });
 
     return prices;
-  }
-
+  },
+  parseCoinGeckoPrices: (json) => json && json.bitcoin && { BTC: +json.bitcoin.usd },
 };
