@@ -18,4 +18,13 @@ module.exports = {
     return prices;
   },
   parseCoinGeckoPrices: (json) => json && json.bitcoin && { BTC: +json.bitcoin.usd },
+  parseMessariPrices: (json, symbol) => json && json.data && json.data.market_data && { [symbol]: +json.data.market_data.price_usd },
+  parseCoincapPrices: (json) => {
+    const prices = {};
+    json.data.forEach((item) => {
+      prices[item.symbol] = +item.priceUsd;
+    });
+
+    return prices;
+  },
 };
