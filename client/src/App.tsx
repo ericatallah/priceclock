@@ -43,6 +43,7 @@ function App() {
 
   useEffect(() => {
     updatePrices();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   useInterval(updatePrices, PRICE_REFRESH_INTERVAL * 1000);
