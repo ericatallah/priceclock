@@ -5,6 +5,7 @@ import useInterval from 'react-useinterval';
 type ClockDigit = undefined | string;
 
 const CLOCK_DIGITS = 7; 
+const PRICE_REFRESH_INTERVAL = 90;
 
 function App() {
   const [btc, setBtc] = useState('0');
@@ -44,7 +45,7 @@ function App() {
     updatePrices();
   },[]);
 
-  useInterval(updatePrices, 60000);
+  useInterval(updatePrices, PRICE_REFRESH_INTERVAL * 1000);
 
   return (
     <div id="app">

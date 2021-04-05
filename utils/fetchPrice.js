@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fetch = require('node-fetch');
 const {
   parseMessariPrices,
@@ -57,7 +58,10 @@ async function getCoincapPrice() {
 
 async function getMessariBtcPrice() {
   try {
-    const resp = await fetch(MESSARI_BTC_DATA_URL);
+    const resp = await fetch(MESSARI_BTC_DATA_URL, {
+      method: 'GET',
+      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
+    });
     const data = await resp.json();
     const prices = parseMessariPrices(data, 'BTC');
 
@@ -75,7 +79,10 @@ async function getMessariBtcPrice() {
 
 async function getMessariRunePrice() {
   try {
-    const resp = await fetch(MESSARI_RUNE_DATA_URL);
+    const resp = await fetch(MESSARI_RUNE_DATA_URL, {
+      method: 'GET',
+      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
+    });
     const data = await resp.json();
     const prices = parseMessariPrices(data, 'RUNE');
 
