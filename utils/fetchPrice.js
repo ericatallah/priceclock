@@ -110,7 +110,7 @@ async function getCoinGeckoPrice() {
 
     return prices;
   } catch (e) {
-    console.log('Error retrieving Nomics price data: ', e);
+    console.log('Error retrieving CoinGecko price data: ', e);
     // use cached prices instead
     return { BTC: cachedBtcPrices.coingecko };
   }
@@ -132,7 +132,7 @@ async function getCmcPrice() {
 
     return prices;
   } catch (e) {
-    console.log('Error retrieving Nomics price data: ', e);
+    console.log('Error retrieving CoinMarketCap price data: ', e);
     // use cached prices instead
     return { BTC: cachedBtcPrices.cmc, RUNE: cachedRunePrices.cmc };
   }
