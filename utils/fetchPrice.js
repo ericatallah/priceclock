@@ -117,11 +117,14 @@ async function getCoinGeckoPrice() {
 }
 
 async function getCmcPrice() {
-  let data;
   try {
     const resp = await fetch(CMC_DATA_URL);
-    // const data = await resp.json();
-    data = await resp.json();
+    const data = await resp.json();
+    if (data.status && data.status.error_code === 1010) {
+      // limit reached, so remove from calculation
+      console.log('CMC limit reached, data not included in price average.');
+      return {};
+    }
     const prices = parseCmcPrices(data);
 
     if (prices.BTC) {
@@ -135,9 +138,6 @@ async function getCmcPrice() {
     return prices;
   } catch (e) {
     console.log('Error retrieving CoinMarketCap price data: ', e);
-    console.log('==================');
-    console.log(data);
-    console.log('==================');
     // use cached prices instead
     return { BTC: cachedBtcPrices.cmc, RUNE: cachedRunePrices.cmc };
   }
