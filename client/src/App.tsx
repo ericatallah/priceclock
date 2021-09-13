@@ -5,11 +5,12 @@ import useInterval from 'react-useinterval';
 type ClockDigit = undefined | string;
 
 const CLOCK_DIGITS = 7; 
-const PRICE_REFRESH_INTERVAL = 240;
+const PRICE_REFRESH_INTERVAL = 360;
 
 function App() {
   const [btc, setBtc] = useState('0');
   const [rune, setRune] = useState('0');
+  const [luna, setLuna] = useState('0');
 
   async function fetchPrices() {
     const resp = await fetch('http://localhost:5000/prices');
@@ -18,9 +19,10 @@ function App() {
   }
 
   async function updatePrices() {
-    const { BTC, RUNE } = await fetchPrices();
+    const { BTC, RUNE, LUNA } = await fetchPrices();
     setBtc(BTC);
     setRune(RUNE);
+    setLuna(LUNA);
   }
 
   function setPriceClock(price: string) {
@@ -53,6 +55,7 @@ function App() {
       <div id="center">
         <div id="clock">
           {setPriceClock(btc)}
+          <div id="luna">{luna}</div>
           <h2><span>BITCLOCK</span></h2>
           <div id="rune">{rune}</div>
         </div>

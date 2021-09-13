@@ -16,6 +16,7 @@ const {
   MESSARI_BTC_DATA_URL,
   MESSARI_RUNE_DATA_URL,
   COIN_CAP_DATA_URL,
+  MESSARI_LUNA_DATA_URL,
 } = require('./constants');
 
 // cache prices in memory
@@ -30,6 +31,14 @@ const cachedBtcPrices = {
 const cachedRunePrices = {
   nomics: 0,
   cmc: 0,
+  coingecko: 0,
+  messari: 0,
+  coincap: 0,
+};
+const cachedLunaPrices = {
+  nomics: 0,
+  cmc: 0,
+  coingecko: 0,
   messari: 0,
   coincap: 0,
 };
@@ -48,11 +57,19 @@ async function getCoincapPrice() {
       cachedRunePrices.coincap = prices.RUNE;
     }
 
+    if (prices.LUNA) {
+      cachedLunaPrices.coincap = prices.LUNA;
+    }
+
     return prices;
   } catch (e) {
     console.log('Error retrieving Coincap price data: ', e);
     // use cached prices instead
-    return { BTC: cachedBtcPrices.coincap, RUNE: cachedRunePrices.coincap };
+    return {
+      BTC: cachedBtcPrices.coincap,
+      RUNE: cachedRunePrices.coincap,
+      LUNA: cachedLunaPrices.coincap,
+    };
   }
 }
 
@@ -98,6 +115,27 @@ async function getMessariRunePrice() {
   }
 }
 
+async function getMessariLunaPrice() {
+  try {
+    const resp = await fetch(MESSARI_LUNA_DATA_URL, {
+      method: 'GET',
+      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
+    });
+    const data = await resp.json();
+    const prices = parseMessariPrices(data, 'LUNA');
+
+    if (prices.LUNA) {
+      cachedRunePrices.messari = prices.LUNA;
+    }
+
+    return prices;
+  } catch (e) {
+    console.log('Error retrieving Messari LUNA price data: ', e);
+    // use cached prices instead
+    return { LUNA: cachedLunaPrices.messari };
+  }
+}
+
 async function getCoinGeckoPrice() {
   try {
     const resp = await fetch(COIN_GECKO_DATA_URL);
@@ -108,11 +146,23 @@ async function getCoinGeckoPrice() {
       cachedBtcPrices.coingecko = prices.BTC;
     }
 
+    if (prices.RUNE) {
+      cachedRunePrices.coingecko = prices.RUNE;
+    }
+
+    if (prices.LUNA) {
+      cachedLunaPrices.coingecko = prices.LUNA;
+    }
+
     return prices;
   } catch (e) {
     console.log('Error retrieving CoinGecko price data: ', e);
     // use cached prices instead
-    return { BTC: cachedBtcPrices.coingecko };
+    return {
+      BTC: cachedBtcPrices.coingecko,
+      RUNE: cachedRunePrices.coingecko,
+      LUNA: cachedLunaPrices.coingecko,
+    };
   }
 }
 
@@ -135,11 +185,19 @@ async function getCmcPrice() {
       cachedRunePrices.cmc = prices.RUNE;
     }
 
+    if (prices.LUNA) {
+      cachedLunaPrices.cmc = prices.LUNA;
+    }
+
     return prices;
   } catch (e) {
     console.log('Error retrieving CoinMarketCap price data: ', e);
     // use cached prices instead
-    return { BTC: cachedBtcPrices.cmc, RUNE: cachedRunePrices.cmc };
+    return {
+      BTC: cachedBtcPrices.cmc,
+      RUNE: cachedRunePrices.cmc,
+      LUNA: cachedLunaPrices.cmc,
+    };
   }
 }
 
@@ -157,11 +215,19 @@ async function getNomicsPrice() {
       cachedRunePrices.nomics = prices.RUNE;
     }
 
+    if (prices.LUNA) {
+      cachedLunaPrices.nomics = prices.LUNA;
+    }
+
     return prices;
   } catch (e) {
     console.log('Error retrieving Nomics price data: ', e);
     // use cached prices instead
-    return { BTC: cachedBtcPrices.nomics, RUNE: cachedRunePrices.nomics };
+    return {
+      BTC: cachedBtcPrices.nomics,
+      RUNE: cachedRunePrices.nomics,
+      LUNA: cachedLunaPrices.nomics,
+    };
   }
 }
 
@@ -183,4 +249,13 @@ async function getCoinbasePrice() {
   }
 }
 
-module.exports = [getCoincapPrice, getMessariBtcPrice, getMessariRunePrice, getCoinGeckoPrice, getCmcPrice, getNomicsPrice, getCoinbasePrice];
+module.exports = [
+  getCoincapPrice,
+  getMessariBtcPrice,
+  getMessariRunePrice,
+  getMessariLunaPrice,
+  getCoinGeckoPrice,
+  getCmcPrice,
+  getNomicsPrice,
+  getCoinbasePrice
+];

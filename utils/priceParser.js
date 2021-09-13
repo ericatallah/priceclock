@@ -17,7 +17,16 @@ module.exports = {
 
     return prices;
   },
-  parseCoinGeckoPrices: (json) => json && json.bitcoin && { BTC: +json.bitcoin.usd },
+  parseCoinGeckoPrices: (json) => {
+    const prices = {};
+    Object.keys(json).forEach((symbol) => {
+      if (symbol === 'bitcoin') prices.BTC = json[symbol].usd;
+      else if (symbol === 'thorchain') prices.RUNE = json[symbol].usd;
+      else if (symbol === 'terra-luna') prices.LUNA = json[symbol].usd;
+      else prices[symbol] = json[symbol].usd;
+    });
+    return prices;
+  },
   parseMessariPrices: (json, symbol) => json && json.data && json.data.market_data && { [symbol]: +json.data.market_data.price_usd },
   parseCoincapPrices: (json) => {
     const prices = {};

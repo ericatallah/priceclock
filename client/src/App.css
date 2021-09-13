@@ -63,57 +63,23 @@ html, body, #root, #app {
   display: inline-block;
 }
 
-#rune {
+#rune, #luna {
   position: absolute;
-  font-size: 2.5rem;
+  font-size: 2.85rem;
   line-height: 0.8;
   padding: 0 5px 9px;
   border-radius: 6px;
-  bottom: 23px;
-  right: 20px;
+  bottom: 20px;
   box-sizing: border-box;
   text-align: right;
   min-width: 75px;
   border: 1px solid #AEA478;
 }
-/*
-.App {
-  text-align: center;
+
+#rune {
+  right: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#luna {
+  left: 20px;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-*/
-
