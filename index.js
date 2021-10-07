@@ -5,6 +5,9 @@ const dataSources = require('./utils/fetchPrice');
 const { round, ceil, average } = require('./utils/math');
 require('dotenv').config();
 
+const MAX_BTC_PRICE = 10000000;
+const MAX_RUNE_PRICE = 1000;
+const MAX_LUNA_PRICE = 10000;
 const PORT = process.env.PORT;
 const app = express();
 
@@ -17,9 +20,9 @@ async function getPrice() {
   const runePrices = [];
   const lunaPrices = [];
   prices.forEach((price) => {
-    if (price.BTC) btcPrices.push(price.BTC);
-    if (price.RUNE) runePrices.push(price.RUNE);
-    if (price.LUNA) lunaPrices.push(price.LUNA);
+    if (price.BTC && price.BTC < MAX_BTC_PRICE) btcPrices.push(price.BTC);
+    if (price.RUNE && price.RUNE < MAX_RUNE_PRICE) runePrices.push(price.RUNE);
+    if (price.LUNA && price.LUNA < MAX_LUNA_PRICE) lunaPrices.push(price.LUNA);
   });
 
   const avgBtcPrice = average(btcPrices);
