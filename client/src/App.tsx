@@ -34,7 +34,7 @@ function App() {
 
   function getNullArray(length: number): undefined[] {
     const arr: undefined[] = [];
-    arr.length = length;
+    arr.length = length > 0 ? length : 0;
     return arr;
   }
 
