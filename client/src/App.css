@@ -63,7 +63,7 @@ html, body, #root, #app {
   display: inline-block;
 }
 
-#rune, #luna {
+#wrld, #luna {
   position: absolute;
   font-size: 2.85rem;
   line-height: 0.8;
@@ -76,7 +76,7 @@ html, body, #root, #app {
   border: 1px solid #AEA478;
 }
 
-#rune {
+#wrld {
   right: 20px;
 }
 

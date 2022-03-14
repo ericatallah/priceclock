@@ -21,7 +21,7 @@ module.exports = {
     const prices = {};
     Object.keys(json).forEach((symbol) => {
       if (symbol === 'bitcoin') prices.BTC = json[symbol].usd;
-      else if (symbol === 'thorchain') prices.RUNE = json[symbol].usd;
+      else if (symbol === 'nft-worlds') prices.WRLD = json[symbol].usd;
       else if (symbol === 'terra-luna') prices.LUNA = json[symbol].usd;
       else prices[symbol] = json[symbol].usd;
     });

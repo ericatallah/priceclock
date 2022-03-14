@@ -14,7 +14,7 @@ const {
   NOMICS_DATA_URL,
   COIN_GECKO_DATA_URL,
   MESSARI_BTC_DATA_URL,
-  MESSARI_RUNE_DATA_URL,
+  MESSARI_WRLD_DATA_URL,
   COIN_CAP_DATA_URL,
   MESSARI_LUNA_DATA_URL,
 } = require('./constants');
@@ -28,7 +28,7 @@ const cachedBtcPrices = {
   messari: 0,
   coincap: 0,
 };
-const cachedRunePrices = {
+const cachedWrldPrices = {
   nomics: 0,
   cmc: 0,
   coingecko: 0,
@@ -53,8 +53,8 @@ async function getCoincapPrice() {
       cachedBtcPrices.coincap = prices.BTC;
     }
 
-    if (prices.RUNE) {
-      cachedRunePrices.coincap = prices.RUNE;
+    if (prices.WRLD) {
+      cachedWrldPrices.coincap = prices.WRLD;
     }
 
     if (prices.LUNA) {
@@ -67,7 +67,7 @@ async function getCoincapPrice() {
     // use cached prices instead
     return {
       BTC: cachedBtcPrices.coincap,
-      RUNE: cachedRunePrices.coincap,
+      WRLD: cachedWrldPrices.coincap,
       LUNA: cachedLunaPrices.coincap,
     };
   }
@@ -94,24 +94,24 @@ async function getMessariBtcPrice() {
   }
 }
 
-async function getMessariRunePrice() {
+async function getMessariWrldPrice() {
   try {
-    const resp = await fetch(MESSARI_RUNE_DATA_URL, {
+    const resp = await fetch(MESSARI_WRLD_DATA_URL, {
       method: 'GET',
       headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
     });
     const data = await resp.json();
-    const prices = parseMessariPrices(data, 'RUNE');
+    const prices = parseMessariPrices(data, 'WRLD');
 
-    if (prices.RUNE) {
-      cachedRunePrices.messari = prices.RUNE;
+    if (prices.WRLD) {
+      cachedWrldPrices.messari = prices.WRLD;
     }
 
     return prices;
   } catch (e) {
-    console.log('Error retrieving Messari RUNE price data: ', e);
+    console.log('Error retrieving Messari WRLD price data: ', e);
     // use cached prices instead
-    return { RUNE: cachedRunePrices.messari };
+    return { WRLD: cachedWrldPrices.messari };
   }
 }
 
@@ -125,7 +125,7 @@ async function getMessariLunaPrice() {
     const prices = parseMessariPrices(data, 'LUNA');
 
     if (prices.LUNA) {
-      cachedRunePrices.messari = prices.LUNA;
+      cachedWrldPrices.messari = prices.LUNA;
     }
 
     return prices;
@@ -146,8 +146,8 @@ async function getCoinGeckoPrice() {
       cachedBtcPrices.coingecko = prices.BTC;
     }
 
-    if (prices.RUNE) {
-      cachedRunePrices.coingecko = prices.RUNE;
+    if (prices.WRLD) {
+      cachedWrldPrices.coingecko = prices.WRLD;
     }
 
     if (prices.LUNA) {
@@ -160,7 +160,7 @@ async function getCoinGeckoPrice() {
     // use cached prices instead
     return {
       BTC: cachedBtcPrices.coingecko,
-      RUNE: cachedRunePrices.coingecko,
+      WRLD: cachedWrldPrices.coingecko,
       LUNA: cachedLunaPrices.coingecko,
     };
   }
@@ -181,8 +181,8 @@ async function getCmcPrice() {
       cachedBtcPrices.cmc = prices.BTC;
     }
 
-    if (prices.RUNE) {
-      cachedRunePrices.cmc = prices.RUNE;
+    if (prices.WRLD) {
+      cachedWrldPrices.cmc = prices.WRLD;
     }
 
     if (prices.LUNA) {
@@ -195,7 +195,7 @@ async function getCmcPrice() {
     // use cached prices instead
     return {
       BTC: cachedBtcPrices.cmc,
-      RUNE: cachedRunePrices.cmc,
+      WRLD: cachedWrldPrices.cmc,
       LUNA: cachedLunaPrices.cmc,
     };
   }
@@ -211,8 +211,8 @@ async function getNomicsPrice() {
       cachedBtcPrices.nomics = prices.BTC;
     }
 
-    if (prices.RUNE) {
-      cachedRunePrices.nomics = prices.RUNE;
+    if (prices.WRLD) {
+      cachedWrldPrices.nomics = prices.WRLD;
     }
 
     if (prices.LUNA) {
@@ -225,7 +225,7 @@ async function getNomicsPrice() {
     // use cached prices instead
     return {
       BTC: cachedBtcPrices.nomics,
-      RUNE: cachedRunePrices.nomics,
+      WRLD: cachedWrldPrices.nomics,
       LUNA: cachedLunaPrices.nomics,
     };
   }
@@ -252,7 +252,7 @@ async function getCoinbasePrice() {
 module.exports = [
   getCoincapPrice,
   getMessariBtcPrice,
-  getMessariRunePrice,
+  getMessariWrldPrice,
   getMessariLunaPrice,
   getCoinGeckoPrice,
   getCmcPrice,

@@ -9,7 +9,7 @@ const PRICE_REFRESH_INTERVAL = 360;
 
 function App() {
   const [btc, setBtc] = useState('0');
-  const [rune, setRune] = useState('0');
+  const [wrld, setWrld] = useState('0');
   const [luna, setLuna] = useState('0');
 
   async function fetchPrices() {
@@ -19,9 +19,9 @@ function App() {
   }
 
   async function updatePrices() {
-    const { BTC, RUNE, LUNA } = await fetchPrices();
+    const { BTC, WRLD, LUNA } = await fetchPrices();
     setBtc(BTC);
-    setRune(RUNE);
+    setWrld(WRLD);
     setLuna(LUNA);
   }
 
@@ -57,7 +57,7 @@ function App() {
           {setPriceClock(btc)}
           <div id="luna">{luna}</div>
           <h2><span>BITCLOCK</span></h2>
-          <div id="rune">{rune}</div>
+          <div id="wrld">{wrld}</div>
         </div>
       </div>
     </div>
