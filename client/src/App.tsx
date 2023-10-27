@@ -65,13 +65,13 @@ function App() {
           </div>
           <div className="small-price-container">
             <div id="eth" className="small-price">Eth {eth}</div>
-            <h2><span>BITCLOCK</span></h2>
+            {/* <h2><span>BITCLOCK</span></h2> */}
             <div id="rune" className="small-price">RUNE {rune}</div>
+            <div id="topia" className="small-price">T {topia}</div>
           </div>
           <div className="small-price-container">
-            <div id="topia" className="small-price">T {topia}</div>
-            <div id="pndc" className="small-price">PNDC {topia}</div>
-            <div id="pepe" className="small-price">PEPE {topia}</div>
+            <div id="pndc" className="small-price">PNDC {pndc}</div>
+            <div id="pepe" className="small-price">PEPE {pepe}</div>
           </div>
         </div>
       </div>
