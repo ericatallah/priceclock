@@ -4,43 +4,57 @@ const {
   parseMessariPrices,
   parseCmcPrices,
   parseCbPrices,
-  parseNomicsPrices,
   parseCoinGeckoPrices,
   parseCoincapPrices,
 } = require('./priceParser');
 const {
   COINBASE_DATA_URL,
   CMC_DATA_URL,
-  NOMICS_DATA_URL,
   COIN_GECKO_DATA_URL,
   MESSARI_BTC_DATA_URL,
-  MESSARI_WRLD_DATA_URL,
+  MESSARI_HYTOPIA_DATA_URL,
   COIN_CAP_DATA_URL,
   MESSARI_LUNA_DATA_URL,
+  MESSARI_ETH_DATA_URL,
+  MESSARI_PNDC_DATA_URL,
+  MESSARI_RUNE_DATA_URL,
+  MESSARI_PEPE_DATA_URL,
 } = require('./constants');
 
 // cache prices in memory
 const cachedBtcPrices = {
-  nomics: 0,
   coinbase: 0,
   cmc: 0,
   coingecko: 0,
   messari: 0,
   coincap: 0,
 };
-const cachedWrldPrices = {
-  nomics: 0,
+const cachedEthPrices = {
   cmc: 0,
   coingecko: 0,
   messari: 0,
   coincap: 0,
 };
-const cachedLunaPrices = {
-  nomics: 0,
+const cachedRunePrices = {
   cmc: 0,
   coingecko: 0,
   messari: 0,
   coincap: 0,
+};
+const cachedTopiaPrices = {
+  cmc: 0,
+  coingecko: 0,
+  messari: 0,
+};
+const cachedPepePrices = {
+  cmc: 0,
+  coingecko: 0,
+  messari: 0,
+};
+const cachedPndcPrices = {
+  cmc: 0,
+  coingecko: 0,
+  messari: 0,
 };
 
 async function getCoincapPrice() {
@@ -53,12 +67,12 @@ async function getCoincapPrice() {
       cachedBtcPrices.coincap = prices.BTC;
     }
 
-    if (prices.WRLD) {
-      cachedWrldPrices.coincap = prices.WRLD;
+    if (prices.ETH) {
+      cachedEthPrices.coincap = prices.ETH;
     }
 
-    if (prices.LUNA) {
-      cachedLunaPrices.coincap = prices.LUNA;
+    if (prices.RUNE) {
+      cachedRunePrices.coincap = prices.RUNE;
     }
 
     return prices;
@@ -67,7 +81,7 @@ async function getCoincapPrice() {
     // use cached prices instead
     return {
       BTC: cachedBtcPrices.coincap,
-      WRLD: cachedWrldPrices.coincap,
+      WRLD: cachedTopiaPrices.coincap,
       LUNA: cachedLunaPrices.coincap,
     };
   }
@@ -94,45 +108,108 @@ async function getMessariBtcPrice() {
   }
 }
 
-async function getMessariWrldPrice() {
+async function getMessariEthPrice() {
   try {
-    const resp = await fetch(MESSARI_WRLD_DATA_URL, {
+    const resp = await fetch(MESSARI_ETH_DATA_URL, {
       method: 'GET',
       headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
     });
     const data = await resp.json();
-    const prices = parseMessariPrices(data, 'WRLD');
+    const prices = parseMessariPrices(data, 'ETH');
 
-    if (prices.WRLD) {
-      cachedWrldPrices.messari = prices.WRLD;
+    if (prices.ETH) {
+      cachedEthPrices.messari = prices.ETH;
     }
 
     return prices;
   } catch (e) {
-    console.log('Error retrieving Messari WRLD price data: ', e);
+    console.log('Error retrieving Messari ETH price data: ', e);
     // use cached prices instead
-    return { WRLD: cachedWrldPrices.messari };
+    return { ETH: cachedEthPrices.messari };
   }
 }
 
-async function getMessariLunaPrice() {
+async function getMessariTopiaPrice() {
   try {
-    const resp = await fetch(MESSARI_LUNA_DATA_URL, {
+    const resp = await fetch(MESSARI_HYTOPIA_DATA_URL, {
       method: 'GET',
       headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
     });
     const data = await resp.json();
-    const prices = parseMessariPrices(data, 'LUNA');
+    const prices = parseMessariPrices(data, 'TOPIA');
 
-    if (prices.LUNA) {
-      cachedWrldPrices.messari = prices.LUNA;
+    if (prices.TOPIA) {
+      cachedTopiaPrices.messari = prices.TOPIA;
     }
 
     return prices;
   } catch (e) {
-    console.log('Error retrieving Messari LUNA price data: ', e);
+    console.log('Error retrieving Messari TOPIA price data: ', e);
     // use cached prices instead
-    return { LUNA: cachedLunaPrices.messari };
+    return { TOPIA: cachedTopiaPrices.messari };
+  }
+}
+
+async function getMessariRunePrice() {
+  try {
+    const resp = await fetch(MESSARI_RUNE_DATA_URL, {
+      method: 'GET',
+      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
+    });
+    const data = await resp.json();
+    const prices = parseMessariPrices(data, 'RUNE');
+
+    if (prices.RUNE) {
+      cachedRunePrices.messari = prices.RUNE;
+    }
+
+    return prices;
+  } catch (e) {
+    console.log('Error retrieving Messari RUNE price data: ', e);
+    // use cached prices instead
+    return { RUNE: cachedRunePrices.messari };
+  }
+}
+
+async function getMessariPndcPrice() {
+  try {
+    const resp = await fetch(MESSARI_PNDC_DATA_URL, {
+      method: 'GET',
+      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
+    });
+    const data = await resp.json();
+    const prices = parseMessariPrices(data, 'PNDC');
+
+    if (prices.PNDC) {
+      cachedPndcPrices.messari = prices.PNDC;
+    }
+
+    return prices;
+  } catch (e) {
+    console.log('Error retrieving Messari PNDC price data: ', e);
+    // use cached prices instead
+    return { PNDC: cachedPndcPrices.messari };
+  }
+}
+
+async function getMessariPepePrice() {
+  try {
+    const resp = await fetch(MESSARI_PEPE_DATA_URL, {
+      method: 'GET',
+      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
+    });
+    const data = await resp.json();
+    const prices = parseMessariPrices(data, 'PEPE');
+
+    if (prices.PEPE) {
+      cachedPepePrices.messari = prices.PEPE;
+    }
+
+    return prices;
+  } catch (e) {
+    console.log('Error retrieving Messari PEPE price data: ', e);
+    // use cached prices instead
+    return { PEPE: cachedPepePrices.messari };
   }
 }
 
@@ -146,12 +223,20 @@ async function getCoinGeckoPrice() {
       cachedBtcPrices.coingecko = prices.BTC;
     }
 
-    if (prices.WRLD) {
-      cachedWrldPrices.coingecko = prices.WRLD;
+    if (prices.ETH) {
+      cachedEthPrices.coingecko = prices.ETH;
     }
 
-    if (prices.LUNA) {
-      cachedLunaPrices.coingecko = prices.LUNA;
+    if (prices.TOPIA) {
+      cachedTopiaPrices.coingecko = prices.TOPIA;
+    }
+
+    if (prices.PEPE) {
+      cachedPepePrices.coingecko = prices.PEPE;
+    }
+
+    if (prices.RUNE) {
+      cachedRunePrices.coingecko = prices.RUNE;
     }
 
     return prices;
@@ -160,8 +245,10 @@ async function getCoinGeckoPrice() {
     // use cached prices instead
     return {
       BTC: cachedBtcPrices.coingecko,
-      WRLD: cachedWrldPrices.coingecko,
-      LUNA: cachedLunaPrices.coingecko,
+      ETH: cachedEthPrices.coingecko,
+      TOPIA: cachedTopiaPrices.coingecko,
+      PEPE: cachedPepePrices.coingecko,
+      RUNE: cachedRunePrices.coingecko,
     };
   }
 }
@@ -181,12 +268,20 @@ async function getCmcPrice() {
       cachedBtcPrices.cmc = prices.BTC;
     }
 
-    if (prices.WRLD) {
-      cachedWrldPrices.cmc = prices.WRLD;
+    if (prices.ETH) {
+      cachedEthPrices.cmc = prices.ETH;
     }
 
-    if (prices.LUNA) {
-      cachedLunaPrices.cmc = prices.LUNA;
+    if (prices.TOPIA) {
+      cachedTopiaPrices.cmc = prices.TOPIA;
+    }
+
+    if (prices.PEPE) {
+      cachedPepePrices.cmc = prices.PEPE;
+    }
+
+    if (prices.RUNE) {
+      cachedRunePrices.cmc = prices.RUNE;
     }
 
     return prices;
@@ -195,38 +290,10 @@ async function getCmcPrice() {
     // use cached prices instead
     return {
       BTC: cachedBtcPrices.cmc,
-      WRLD: cachedWrldPrices.cmc,
-      LUNA: cachedLunaPrices.cmc,
-    };
-  }
-}
-
-async function getNomicsPrice() {
-  try {
-    const resp = await fetch(NOMICS_DATA_URL);
-    const data = await resp.json();
-    const prices = parseNomicsPrices(data);
-
-    if (prices.BTC) {
-      cachedBtcPrices.nomics = prices.BTC;
-    }
-
-    if (prices.WRLD) {
-      cachedWrldPrices.nomics = prices.WRLD;
-    }
-
-    if (prices.LUNA) {
-      cachedLunaPrices.nomics = prices.LUNA;
-    }
-
-    return prices;
-  } catch (e) {
-    console.log('Error retrieving Nomics price data: ', e);
-    // use cached prices instead
-    return {
-      BTC: cachedBtcPrices.nomics,
-      WRLD: cachedWrldPrices.nomics,
-      LUNA: cachedLunaPrices.nomics,
+      ETH: cachedEthPrices.cmc,
+      TOPIA: cachedTopiaPrices.cmc,
+      PEPE: cachedPepePrices.cmc,
+      RUNE: cachedRunePrices.cmc,
     };
   }
 }
@@ -252,10 +319,11 @@ async function getCoinbasePrice() {
 module.exports = [
   getCoincapPrice,
   getMessariBtcPrice,
-  getMessariWrldPrice,
-  getMessariLunaPrice,
+  getMessariEthPrice,
+  getMessariTopiaPrice,
+  getMessariPndcPrice,
+  getMessariPepePrice,
   getCoinGeckoPrice,
   getCmcPrice,
-  getNomicsPrice,
   getCoinbasePrice
 ];

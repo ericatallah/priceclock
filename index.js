@@ -16,23 +16,38 @@ app.use('/static', express.static(path.join(__dirname, 'client')));
 async function getPrice() {
   const promises = dataSources.map(dataSource => dataSource());
   const prices = await Promise.all(promises);
-  const btcPrices = [];
-  const wrldPrices = [];
-  const lunaPrices = [];
-  prices.forEach((price) => {
-    if (price.BTC && price.BTC < MAX_BTC_PRICE) btcPrices.push(price.BTC);
-    if (price.WRLD && price.WRLD < MAX_WRLD_PRICE) wrldPrices.push(price.WRLD);
-    if (price.LUNA && price.LUNA < MAX_LUNA_PRICE) lunaPrices.push(price.LUNA);
-  });
+  const symbolToPriceArray = {};
 
-  const avgBtcPrice = average(btcPrices);
-  const avgWrldPrice = average(wrldPrices);
-  const avgLunaPrice = average(lunaPrices);
-  return {
-    BTC: ceil(avgBtcPrice),
-    WRLD: round(avgWrldPrice),
-    LUNA: round(avgLunaPrice),
-  };
+  for (const priceObj of prices) {
+    for (const [symbol, price] of Object.entries(priceObj)) {
+      if (!symbolToPriceArray[symbol]) symbolToPriceArray[symbol] = [];
+      symbolToPriceArray[symbol].push(price);
+    }
+  }
+
+  const avgPrices = {};
+
+  for (const [symbol, priceList] of Object.entries(symbolToPriceArray)) {
+    avgPrices[symbol] = average(priceList);
+    switch (symbol) {
+      case 'BTC':
+      case 'ETH':
+        avgPrices[symbol] = ceil(avgPrices[symbol]);
+        break;
+      case 'TOPIA':
+        avgPrices[symbol] = round(avgPrices[symbol], 3);
+        break;
+      case 'RUNE':
+        avgPrices[symbol] = round(avgPrices[symbol]);
+        break;
+      case 'PNDC':
+      case 'PEPE':
+        avgPrices[symbol] = round(avgPrices[symbol], 8);
+        break;
+    }
+  }
+
+  return avgPrices;
 }
 
 app.use(cors());
