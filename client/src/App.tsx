@@ -9,8 +9,11 @@ const PRICE_REFRESH_INTERVAL = 360;
 
 function App() {
   const [btc, setBtc] = useState('0');
-  const [wrld, setWrld] = useState('0');
-  const [luna, setLuna] = useState('0');
+  const [eth, setEth] = useState('0');
+  const [topia, setTopia] = useState('0');
+  const [rune, setRune] = useState('0');
+  const [pndc, setPndc] = useState('0');
+  const [pepe, setPepe] = useState('0');
 
   async function fetchPrices() {
     const resp = await fetch('http://localhost:5000/prices');
@@ -19,10 +22,13 @@ function App() {
   }
 
   async function updatePrices() {
-    const { BTC, WRLD, LUNA } = await fetchPrices();
+    const { BTC, ETH, TOPIA, RUNE, PNDC, PEPE } = await fetchPrices();
     setBtc(BTC);
-    setWrld(WRLD);
-    setLuna(LUNA);
+    setEth(ETH);
+    setTopia(TOPIA);
+    setRune(RUNE);
+    setPndc(PNDC);
+    setPepe(PEPE);
   }
 
   function setPriceClock(price: string) {
@@ -54,10 +60,19 @@ function App() {
     <div id="app">
       <div id="center">
         <div id="clock">
-          {setPriceClock(btc)}
-          <div id="luna">{luna}</div>
-          <h2><span>BITCLOCK</span></h2>
-          <div id="wrld">{wrld}</div>
+          <div className="flex">
+            {setPriceClock(btc)}
+          </div>
+          <div className="small-price-container">
+            <div id="eth" className="small-price">Eth {eth}</div>
+            <h2><span>BITCLOCK</span></h2>
+            <div id="rune" className="small-price">RUNE {rune}</div>
+          </div>
+          <div className="small-price-container">
+            <div id="topia" className="small-price">T {topia}</div>
+            <div id="pndc" className="small-price">PNDC {topia}</div>
+            <div id="pepe" className="small-price">PEPE {topia}</div>
+          </div>
         </div>
       </div>
     </div>
