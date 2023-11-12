@@ -19,6 +19,10 @@ const {
   MESSARI_PNDC_DATA_URL,
   MESSARI_RUNE_DATA_URL,
   MESSARI_PEPE_DATA_URL,
+  MESSARI_XRP_DATA_URL,
+  COINBASE_BTC_DATA_URL,
+  COINBASE_ETH_DATA_URL,
+  COINBASE_XRP_DATA_URL,
 } = require('./constants');
 
 // cache prices in memory
@@ -30,6 +34,14 @@ const cachedBtcPrices = {
   coincap: 0,
 };
 const cachedEthPrices = {
+  coinbase: 0,
+  cmc: 0,
+  coingecko: 0,
+  messari: 0,
+  coincap: 0,
+};
+const cachedXrpPrices = {
+  coinbase: 0,
   cmc: 0,
   coingecko: 0,
   messari: 0,
@@ -71,6 +83,10 @@ async function getCoincapPrice() {
       cachedEthPrices.coincap = prices.ETH;
     }
 
+    if (prices.XRP) {
+      cachedXrpPrices.coincap = prices.XRP;
+    }
+
     if (prices.RUNE) {
       cachedRunePrices.coincap = prices.RUNE;
     }
@@ -81,8 +97,9 @@ async function getCoincapPrice() {
     // use cached prices instead
     return {
       BTC: cachedBtcPrices.coincap,
-      WRLD: cachedTopiaPrices.coincap,
-      LUNA: cachedLunaPrices.coincap,
+      ETH: cachedEthPrices.coincap,
+      XRP: cachedXrpPrices.coincap,
+      RUNE: cachedRunePrices.coincap,
     };
   }
 }
@@ -126,6 +143,27 @@ async function getMessariEthPrice() {
     console.log('Error retrieving Messari ETH price data: ', e);
     // use cached prices instead
     return { ETH: cachedEthPrices.messari };
+  }
+}
+
+async function getMessariXrpPrice() {
+  try {
+    const resp = await fetch(MESSARI_XRP_DATA_URL, {
+      method: 'GET',
+      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
+    });
+    const data = await resp.json();
+    const prices = parseMessariPrices(data, 'XRP');
+
+    if (prices.XRP) {
+      cachedXrpPrices.messari = prices.XRP;
+    }
+
+    return prices;
+  } catch (e) {
+    console.log('Error retrieving Messari XRP price data: ', e);
+    // use cached prices instead
+    return { XRP: cachedXrpPrices.messari };
   }
 }
 
@@ -227,6 +265,10 @@ async function getCoinGeckoPrice() {
       cachedEthPrices.coingecko = prices.ETH;
     }
 
+    if (prices.XRP) {
+      cachedXrpPrices.coingecko = prices.XRP;
+    }
+
     if (prices.TOPIA) {
       cachedTopiaPrices.coingecko = prices.TOPIA;
     }
@@ -246,6 +288,7 @@ async function getCoinGeckoPrice() {
     return {
       BTC: cachedBtcPrices.coingecko,
       ETH: cachedEthPrices.coingecko,
+      XRP: cachedXrpPrices.coingecko,
       TOPIA: cachedTopiaPrices.coingecko,
       PEPE: cachedPepePrices.coingecko,
       RUNE: cachedRunePrices.coingecko,
@@ -272,6 +315,10 @@ async function getCmcPrice() {
       cachedEthPrices.cmc = prices.ETH;
     }
 
+    if (prices.XRP) {
+      cachedXrpPrices.cmc = prices.XRP;
+    }
+
     if (prices.TOPIA) {
       cachedTopiaPrices.cmc = prices.TOPIA;
     }
@@ -291,6 +338,7 @@ async function getCmcPrice() {
     return {
       BTC: cachedBtcPrices.cmc,
       ETH: cachedEthPrices.cmc,
+      XRP: cachedXrpPrices.cmc,
       TOPIA: cachedTopiaPrices.cmc,
       PEPE: cachedPepePrices.cmc,
       RUNE: cachedRunePrices.cmc,
@@ -298,11 +346,11 @@ async function getCmcPrice() {
   }
 }
 
-async function getCoinbasePrice() {
+async function getCoinbaseBtcPrice() {
   try {
-    const resp = await fetch(COINBASE_DATA_URL);
+    const resp = await fetch(COINBASE_BTC_DATA_URL);
     const data = await resp.json();
-    const prices = parseCbPrices(data);
+    const prices = parseCbPrices(data, 'BTC');
 
     if (prices.BTC) {
       cachedBtcPrices.coinbase = prices.BTC;
@@ -310,9 +358,45 @@ async function getCoinbasePrice() {
 
     return prices;
   } catch (e) {
-    console.log('Error retrieving Coinbase price data: ', e);
+    console.log('Error retrieving Coinbase BTC price data: ', e);
     // use cached price instead
     return { BTC: cachedBtcPrices.coinbase };
+  }
+}
+
+async function getCoinbaseEthPrice() {
+  try {
+    const resp = await fetch(COINBASE_ETH_DATA_URL);
+    const data = await resp.json();
+    const prices = parseCbPrices(data, 'ETH');
+
+    if (prices.ETH) {
+      cachedEthPrices.coinbase = prices.ETH;
+    }
+
+    return prices;
+  } catch (e) {
+    console.log('Error retrieving Coinbase ETH price data: ', e);
+    // use cached price instead
+    return { ETH: cachedEthPrices.coinbase };
+  }
+}
+
+async function getCoinbaseXrpPrice() {
+  try {
+    const resp = await fetch(COINBASE_XRP_DATA_URL);
+    const data = await resp.json();
+    const prices = parseCbPrices(data, 'XRP');
+
+    if (prices.XRP) {
+      cachedXrpPrices.coinbase = prices.XRP;
+    }
+
+    return prices;
+  } catch (e) {
+    console.log('Error retrieving Coinbase XRP price data: ', e);
+    // use cached price instead
+    return { XRP: cachedXrpPrices.coinbase };
   }
 }
 
@@ -321,9 +405,12 @@ module.exports = [
   getMessariBtcPrice,
   getMessariEthPrice,
   getMessariTopiaPrice,
+  getMessariRunePrice,
   getMessariPndcPrice,
   getMessariPepePrice,
   getCoinGeckoPrice,
   getCmcPrice,
-  getCoinbasePrice
+  getCoinbaseBtcPrice,
+  getCoinbaseEthPrice,
+  getCoinbaseXrpPrice,
 ];

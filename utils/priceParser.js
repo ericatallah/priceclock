@@ -1,5 +1,5 @@
 module.exports = {
-  parseCbPrices: (json) => json && json.data && { BTC: +json.data.amount },
+  parseCbPrices: (json, symbol) => json && json.data && { [symbol]: +json.data.amount },
   parseCmcPrices: (json) => {
     const prices = {};
     Object.keys(json.data).forEach((key) => {
@@ -14,6 +14,7 @@ module.exports = {
     Object.keys(json).forEach((symbol) => {
       if (symbol === 'bitcoin') prices.BTC = json[symbol].usd;
       else if (symbol === 'ethereum') prices.ETH = json[symbol].usd;
+      else if (symbol === 'ripple') prices.XRP = json[symbol].usd;
       else if (symbol === 'hytopia') prices.TOPIA = json[symbol].usd;
       else if (symbol === 'pepe') prices.PEPE = json[symbol].usd;
       else if (symbol === 'thorchain') prices.RUNE = json[symbol].usd;

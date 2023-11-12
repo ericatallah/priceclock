@@ -37,6 +37,7 @@ async function getPrice() {
       case 'TOPIA':
         avgPrices[symbol] = round(avgPrices[symbol], 3);
         break;
+      case 'XRP':
       case 'RUNE':
         avgPrices[symbol] = round(avgPrices[symbol]);
         break;

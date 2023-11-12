@@ -10,6 +10,7 @@ const PRICE_REFRESH_INTERVAL = 360;
 function App() {
   const [btc, setBtc] = useState('0');
   const [eth, setEth] = useState('0');
+  const [xrp, setXrp] = useState('0');
   const [topia, setTopia] = useState('0');
   const [rune, setRune] = useState('0');
   const [pndc, setPndc] = useState('0');
@@ -22,9 +23,10 @@ function App() {
   }
 
   async function updatePrices() {
-    const { BTC, ETH, TOPIA, RUNE, PNDC, PEPE } = await fetchPrices();
+    const { BTC, ETH, XRP, TOPIA, RUNE, PNDC, PEPE } = await fetchPrices();
     setBtc(BTC);
     setEth(ETH);
+    setXrp(XRP);
     setTopia(TOPIA);
     setRune(RUNE);
     setPndc(PNDC);
@@ -67,11 +69,14 @@ function App() {
             <div id="eth" className="small-price">Eth {eth}</div>
             {/* <h2><span>BITCLOCK</span></h2> */}
             <div id="rune" className="small-price">RUNE {rune}</div>
-            <div id="topia" className="small-price">T {topia}</div>
+            <div id="topia" className="small-price">TOP {topia}</div>
           </div>
           <div className="small-price-container">
             <div id="pndc" className="small-price">PNDC {pndc}</div>
             <div id="pepe" className="small-price">PEPE {pepe}</div>
+          </div>
+          <div className="small-price-container">
+            <div id="xrp" className="small-price">XRP {xrp}</div>
           </div>
         </div>
       </div>
