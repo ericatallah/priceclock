@@ -42,7 +42,7 @@ async function getPrice() {
         avgPrices[symbol] = round(avgPrices[symbol]);
         break;
       case 'PNDC':
-      case 'PEPE':
+      case 'PORK':
         avgPrices[symbol] = round(avgPrices[symbol], 8);
         break;
     }

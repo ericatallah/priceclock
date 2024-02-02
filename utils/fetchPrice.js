@@ -8,17 +8,15 @@ const {
   parseCoincapPrices,
 } = require('./priceParser');
 const {
-  COINBASE_DATA_URL,
   CMC_DATA_URL,
   COIN_GECKO_DATA_URL,
   MESSARI_BTC_DATA_URL,
   MESSARI_HYTOPIA_DATA_URL,
   COIN_CAP_DATA_URL,
-  MESSARI_LUNA_DATA_URL,
   MESSARI_ETH_DATA_URL,
   MESSARI_PNDC_DATA_URL,
   MESSARI_RUNE_DATA_URL,
-  MESSARI_PEPE_DATA_URL,
+  MESSARI_PORK_DATA_URL,
   MESSARI_XRP_DATA_URL,
   COINBASE_BTC_DATA_URL,
   COINBASE_ETH_DATA_URL,
@@ -58,7 +56,7 @@ const cachedTopiaPrices = {
   coingecko: 0,
   messari: 0,
 };
-const cachedPepePrices = {
+const cachedPorkPrices = {
   cmc: 0,
   coingecko: 0,
   messari: 0,
@@ -230,24 +228,24 @@ async function getMessariPndcPrice() {
   }
 }
 
-async function getMessariPepePrice() {
+async function getMessariPorkPrice() {
   try {
-    const resp = await fetch(MESSARI_PEPE_DATA_URL, {
+    const resp = await fetch(MESSARI_PORK_DATA_URL, {
       method: 'GET',
       headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
     });
     const data = await resp.json();
-    const prices = parseMessariPrices(data, 'PEPE');
+    const prices = parseMessariPrices(data, 'PORK');
 
-    if (prices.PEPE) {
-      cachedPepePrices.messari = prices.PEPE;
+    if (prices.PORK) {
+      cachedPorkPrices.messari = prices.PORK;
     }
 
     return prices;
   } catch (e) {
-    console.log('Error retrieving Messari PEPE price data: ', e);
+    console.log('Error retrieving Messari PORK price data: ', e);
     // use cached prices instead
-    return { PEPE: cachedPepePrices.messari };
+    return { PORK: cachedPorkPrices.messari };
   }
 }
 
@@ -273,8 +271,8 @@ async function getCoinGeckoPrice() {
       cachedTopiaPrices.coingecko = prices.TOPIA;
     }
 
-    if (prices.PEPE) {
-      cachedPepePrices.coingecko = prices.PEPE;
+    if (prices.PORK) {
+      cachedPorkPrices.coingecko = prices.PORK;
     }
 
     if (prices.RUNE) {
@@ -290,7 +288,7 @@ async function getCoinGeckoPrice() {
       ETH: cachedEthPrices.coingecko,
       XRP: cachedXrpPrices.coingecko,
       TOPIA: cachedTopiaPrices.coingecko,
-      PEPE: cachedPepePrices.coingecko,
+      PORK: cachedPorkPrices.coingecko,
       RUNE: cachedRunePrices.coingecko,
     };
   }
@@ -323,8 +321,8 @@ async function getCmcPrice() {
       cachedTopiaPrices.cmc = prices.TOPIA;
     }
 
-    if (prices.PEPE) {
-      cachedPepePrices.cmc = prices.PEPE;
+    if (prices.PORK) {
+      cachedPorkPrices.cmc = prices.PORK;
     }
 
     if (prices.RUNE) {
@@ -340,7 +338,7 @@ async function getCmcPrice() {
       ETH: cachedEthPrices.cmc,
       XRP: cachedXrpPrices.cmc,
       TOPIA: cachedTopiaPrices.cmc,
-      PEPE: cachedPepePrices.cmc,
+      PORK: cachedPorkPrices.cmc,
       RUNE: cachedRunePrices.cmc,
     };
   }
@@ -407,7 +405,8 @@ module.exports = [
   getMessariTopiaPrice,
   getMessariRunePrice,
   getMessariPndcPrice,
-  getMessariPepePrice,
+  getMessariPorkPrice,
+  getMessariXrpPrice,
   getCoinGeckoPrice,
   getCmcPrice,
   getCoinbaseBtcPrice,

@@ -6,6 +6,7 @@ type ClockDigit = undefined | string;
 
 const CLOCK_DIGITS = 7; 
 const PRICE_REFRESH_INTERVAL = 360;
+const ONE_BIL = 1_000_000_000;
 
 function App() {
   const [btc, setBtc] = useState('0');
@@ -14,7 +15,7 @@ function App() {
   const [topia, setTopia] = useState('0');
   const [rune, setRune] = useState('0');
   const [pndc, setPndc] = useState('0');
-  const [pepe, setPepe] = useState('0');
+  const [pork, setPork] = useState('0');
 
   async function fetchPrices() {
     const resp = await fetch('http://localhost:5000/prices');
@@ -23,14 +24,14 @@ function App() {
   }
 
   async function updatePrices() {
-    const { BTC, ETH, XRP, TOPIA, RUNE, PNDC, PEPE } = await fetchPrices();
+    const { BTC, ETH, XRP, TOPIA, RUNE, PNDC, PORK } = await fetchPrices();
     setBtc(BTC);
     setEth(ETH);
     setXrp(XRP);
     setTopia(TOPIA);
     setRune(RUNE);
     setPndc(PNDC);
-    setPepe(PEPE);
+    setPork(PORK);
   }
 
   function setPriceClock(price: string) {
@@ -72,8 +73,8 @@ function App() {
             <div id="topia" className="small-price">TOP {topia}</div>
           </div>
           <div className="small-price-container">
-            <div id="pndc" className="small-price">PNDC {pndc}</div>
-            <div id="pepe" className="small-price">PEPE {pepe}</div>
+            <div id="pndc" className="small-price">1 B PNDC = {((+pndc * ONE_BIL) / +eth).toFixed(2)} ETH</div>
+            <div id="pork" className="small-price">1 B PORK = {((+pork * ONE_BIL) / +eth).toFixed(2)} ETH</div>
           </div>
           <div className="small-price-container">
             <div id="xrp" className="small-price">XRP {xrp}</div>

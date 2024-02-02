@@ -16,7 +16,7 @@ module.exports = {
       else if (symbol === 'ethereum') prices.ETH = json[symbol].usd;
       else if (symbol === 'ripple') prices.XRP = json[symbol].usd;
       else if (symbol === 'hytopia') prices.TOPIA = json[symbol].usd;
-      else if (symbol === 'pepe') prices.PEPE = json[symbol].usd;
+      else if (symbol === 'pepefork') prices.PORK = json[symbol].usd;
       else if (symbol === 'thorchain') prices.RUNE = json[symbol].usd;
       else prices[symbol] = json[symbol].usd;
     });
