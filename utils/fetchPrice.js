@@ -433,8 +433,8 @@ async function getMSTRPrice() {
       };
     }
 
-    if (hour === 13 && minutes > 5) {
-      // markets closed after 1pm PT (go until 5 mins after to make sure we get stock closing price)
+    if (hour === 13 && minutes > 10) {
+      // markets closed after 1pm PT (go until 10 mins after to make sure we get stock closing price)
       return {
         MSTR: cachedMSTRPrices.av,
       };
