@@ -405,6 +405,41 @@ async function getCoinbaseXrpPrice() {
 
 async function getMSTRPrice() {
   try {
+    // only fetch if markets are open (mon - fri 6:30am - 1pm PT)
+    const now = new Date();
+    const minutes = now.getMinutes();
+    const hour = now.getHours();
+    const day = now.getDay();
+
+
+    if ([0, 6].includes(day)) {
+      // markets closed sat/sun
+      return {
+        MSTR: cachedMSTRPrices.av,
+      };
+    }
+
+    if ([0, 1, 2, 3, 4, 5, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23].includes(hour)) {
+      // markets closed outside hrs of 6:30am - 1pm PT
+      return {
+        MSTR: cachedMSTRPrices.av,
+      };
+    }
+
+    if (hour === 6 && minutes < 30) {
+      // markets closed before 6:30am PT
+      return {
+        MSTR: cachedMSTRPrices.av,
+      };
+    }
+
+    if (hour === 13 && minutes > 5) {
+      // markets closed after 1pm PT (go until 5 mins after to make sure we get stock closing price)
+      return {
+        MSTR: cachedMSTRPrices.av,
+      };
+    }
+
     const resp = await fetch(MSTR_DATA_URL);
     const data = await resp.json();
     const prices = parseMSTRPrices(data);
@@ -415,7 +450,7 @@ async function getMSTRPrice() {
 
     return prices;
   } catch (e) {
-    console.log('Error retrieving Alphavantage MSTR price data: ', e);
+    console.log('Error retrieving fin prep MSTR price data: ', e);
     // use cached prices instead
     return {
       MSTR: cachedMSTRPrices.av,
