@@ -34,4 +34,5 @@ module.exports = {
   COIN_GECKO_DATA_URL: 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple,thorchain,hytopia,pepefork&vs_currencies=usd',
   // CMC_DATA_URL: `https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?id=${CMC_ID_TICKER_MAP.BTC},${CMC_ID_TICKER_MAP.WRLD},${CMC_ID_TICKER_MAP.LUNA}&CMC_PRO_API_KEY=${process.env.CMC_KEY}`,
   CMC_DATA_URL: `https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC,ETH,XRP,RUNE,TOPIA,PNDC,PORK&CMC_PRO_API_KEY=${process.env.CMC_KEY}`,
+  MSTR_DATA_URL: `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=MSTR&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`,
 };

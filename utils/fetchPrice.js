@@ -6,6 +6,7 @@ const {
   parseCbPrices,
   parseCoinGeckoPrices,
   parseCoincapPrices,
+  parseMSTRPrices,
 } = require('./priceParser');
 const {
   CMC_DATA_URL,
@@ -21,6 +22,7 @@ const {
   COINBASE_BTC_DATA_URL,
   COINBASE_ETH_DATA_URL,
   COINBASE_XRP_DATA_URL,
+  MSTR_DATA_URL,
 } = require('./constants');
 
 // cache prices in memory
@@ -65,6 +67,9 @@ const cachedPndcPrices = {
   cmc: 0,
   coingecko: 0,
   messari: 0,
+};
+const cachedMSTRPrices = {
+  av: 0,
 };
 
 async function getCoincapPrice() {
@@ -398,6 +403,26 @@ async function getCoinbaseXrpPrice() {
   }
 }
 
+async function getMSTRPrice() {
+  try {
+    const resp = await fetch(MSTR_DATA_URL);
+    const data = await resp.json();
+    const prices = parseMSTRPrices(data);
+
+    if (prices.MSTR) {
+      cachedMSTRPrices.av = prices.MSTR;
+    }
+
+    return prices;
+  } catch (e) {
+    console.log('Error retrieving Alphavantage MSTR price data: ', e);
+    // use cached prices instead
+    return {
+      MSTR: cachedMSTRPrices.av,
+    };
+  }
+}
+
 module.exports = [
   getCoincapPrice,
   getMessariBtcPrice,
@@ -412,4 +437,5 @@ module.exports = [
   getCoinbaseBtcPrice,
   getCoinbaseEthPrice,
   getCoinbaseXrpPrice,
+  getMSTRPrice,
 ];

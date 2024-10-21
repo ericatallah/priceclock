@@ -31,4 +31,8 @@ module.exports = {
 
     return prices;
   },
+  parseMSTRPrices: (json) => {
+    const price = +json['Global Quote']['05. price'];
+    return { MSTR: price };
+  },
 };

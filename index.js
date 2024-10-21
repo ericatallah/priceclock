@@ -39,6 +39,7 @@ async function getPrice() {
         break;
       case 'XRP':
       case 'RUNE':
+      case 'MSTR':
         avgPrices[symbol] = round(avgPrices[symbol]);
         break;
       case 'PNDC':
