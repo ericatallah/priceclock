@@ -460,9 +460,13 @@ async function getMSTRPrice() {
   }
 }
 
+// not working
 async function getRobinhoodMSTRPrice() {
   try {
-    const { data } = await axios.get('https://robinhood.com/stocks/MSTR/');
+    // const { data } = await axios.get('https://robinhood.com/stocks/MSTR/');
+    const resp = await fetch('https://robinhood.com/stocks/MSTR/');
+    const data = await resp.text();
+    console.log(data);
     const regex = /"bid_price":"(\d+\.\d{1,6})"/;
     const match = data.match(regex);
 
@@ -503,6 +507,6 @@ module.exports = [
   getCoinbaseBtcPrice,
   getCoinbaseEthPrice,
   getCoinbaseXrpPrice,
-  // getMSTRPrice,
-  getRobinhoodMSTRPrice,
+  getMSTRPrice,
+  // getRobinhoodMSTRPrice,
 ];
