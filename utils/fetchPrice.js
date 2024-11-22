@@ -1,5 +1,6 @@
 require('dotenv').config();
 const fetch = require('node-fetch');
+const axios = require('axios');
 const {
   parseMessariPrices,
   parseCmcPrices,
@@ -69,7 +70,8 @@ const cachedPndcPrices = {
   messari: 0,
 };
 const cachedMSTRPrices = {
-  av: 0,
+  // av: 0,
+  rh: 0,
 };
 
 async function getCoincapPrice() {
@@ -458,6 +460,35 @@ async function getMSTRPrice() {
   }
 }
 
+async function getRobinhoodMSTRPrice() {
+  try {
+    const { data } = await axios.get('https://robinhood.com/stocks/MSTR/');
+    const regex = /"bid_price":"(\d+\.\d{1,6})"/;
+    const match = data.match(regex);
+
+    if (!match) {
+      return {
+        MSTR: cachedMSTRPrices.rh,
+      };
+    }
+
+    const priceNum = parseFloat(match[1]).toFixed(2);
+    console.log('rh mstr price: ', priceNum);
+
+    if (priceNum > 0) {
+      cachedMSTRPrices.rh = priceNum;
+    }
+
+    return { MSTR: priceNum };
+  } catch (e) {
+    console.log('Error retrieving robinhood MSTR price data: ', e);
+    // use cached prices instead
+    return {
+      MSTR: cachedMSTRPrices.rh,
+    };
+  }
+}
+
 module.exports = [
   getCoincapPrice,
   getMessariBtcPrice,
@@ -472,5 +503,6 @@ module.exports = [
   getCoinbaseBtcPrice,
   getCoinbaseEthPrice,
   getCoinbaseXrpPrice,
-  getMSTRPrice,
+  // getMSTRPrice,
+  getRobinhoodMSTRPrice,
 ];
