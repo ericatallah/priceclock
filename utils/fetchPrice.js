@@ -23,6 +23,8 @@ const {
   COINBASE_ETH_DATA_URL,
   COINBASE_XRP_DATA_URL,
   MSTR_DATA_URL,
+  MESSARI_SOLANA_DATA_URL,
+  COINBASE_SOL_DATA_URL,
 } = require('./constants');
 
 // cache prices in memory
@@ -34,6 +36,13 @@ const cachedBtcPrices = {
   coincap: 0,
 };
 const cachedEthPrices = {
+  coinbase: 0,
+  cmc: 0,
+  coingecko: 0,
+  messari: 0,
+  coincap: 0,
+};
+const cachedSolPrices = {
   coinbase: 0,
   cmc: 0,
   coingecko: 0,
@@ -95,6 +104,10 @@ async function getCoincapPrice() {
       cachedRunePrices.coincap = prices.RUNE;
     }
 
+    if (prices.SOL) {
+      cachedSolPrices.coincap = prices.SOL;
+    }
+
     return prices;
   } catch (e) {
     console.log('Error retrieving Coincap price data: ', e);
@@ -104,6 +117,7 @@ async function getCoincapPrice() {
       ETH: cachedEthPrices.coincap,
       XRP: cachedXrpPrices.coincap,
       RUNE: cachedRunePrices.coincap,
+      SOL: cachedSolPrices.coincap,
     };
   }
 }
@@ -147,6 +161,27 @@ async function getMessariEthPrice() {
     console.log('Error retrieving Messari ETH price data: ', e);
     // use cached prices instead
     return { ETH: cachedEthPrices.messari };
+  }
+}
+
+async function getMessariSolPrice() {
+  try {
+    const resp = await fetch(MESSARI_SOLANA_DATA_URL, {
+      method: 'GET',
+      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
+    });
+    const data = await resp.json();
+    const prices = parseMessariPrices(data, 'SOL');
+
+    if (prices.SOL) {
+      cachedSolPrices.messari = prices.SOL;
+    }
+
+    return prices;
+  } catch (e) {
+    console.log('Error retrieving Messari SOL price data: ', e);
+    // use cached prices instead
+    return { SOL: cachedSolPrices.messari };
   }
 }
 
@@ -269,6 +304,10 @@ async function getCoinGeckoPrice() {
       cachedEthPrices.coingecko = prices.ETH;
     }
 
+    if (prices.SOL) {
+      cachedSolPrices.coingecko = prices.SOL;
+    }
+
     if (prices.XRP) {
       cachedXrpPrices.coingecko = prices.XRP;
     }
@@ -292,6 +331,7 @@ async function getCoinGeckoPrice() {
     return {
       BTC: cachedBtcPrices.coingecko,
       ETH: cachedEthPrices.coingecko,
+      SOL: cachedSolPrices.coingecko,
       XRP: cachedXrpPrices.coingecko,
       TOPIA: cachedTopiaPrices.coingecko,
       PORK: cachedPorkPrices.coingecko,
@@ -319,6 +359,10 @@ async function getCmcPrice() {
       cachedEthPrices.cmc = prices.ETH;
     }
 
+    if (prices.SOL) {
+      cachedSolPrices.cmc = prices.SOL;
+    }
+
     if (prices.XRP) {
       cachedXrpPrices.cmc = prices.XRP;
     }
@@ -342,6 +386,7 @@ async function getCmcPrice() {
     return {
       BTC: cachedBtcPrices.cmc,
       ETH: cachedEthPrices.cmc,
+      SOL: cachedSolPrices.cmc,
       XRP: cachedXrpPrices.cmc,
       TOPIA: cachedTopiaPrices.cmc,
       PORK: cachedPorkPrices.cmc,
@@ -383,6 +428,24 @@ async function getCoinbaseEthPrice() {
     console.log('Error retrieving Coinbase ETH price data: ', e);
     // use cached price instead
     return { ETH: cachedEthPrices.coinbase };
+  }
+}
+
+async function getCoinbaseSolPrice() {
+  try {
+    const resp = await fetch(COINBASE_SOL_DATA_URL);
+    const data = await resp.json();
+    const prices = parseCbPrices(data, 'SOL');
+
+    if (prices.SOL) {
+      cachedSolPrices.coinbase = prices.SOL;
+    }
+
+    return prices;
+  } catch (e) {
+    console.log('Error retrieving Coinbase SOL price data: ', e);
+    // use cached price instead
+    return { SOL: cachedSolPrices.coinbase };
   }
 }
 
@@ -496,6 +559,7 @@ module.exports = [
   getCoincapPrice,
   getMessariBtcPrice,
   getMessariEthPrice,
+  getMessariSolPrice,
   getMessariTopiaPrice,
   getMessariRunePrice,
   getMessariPndcPrice,
@@ -505,6 +569,7 @@ module.exports = [
   getCmcPrice,
   getCoinbaseBtcPrice,
   getCoinbaseEthPrice,
+  getCoinbaseSolPrice,
   getCoinbaseXrpPrice,
   getMSTRPrice,
   // getRobinhoodMSTRPrice,

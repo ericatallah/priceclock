@@ -32,6 +32,8 @@ async function getPrice() {
     switch (symbol) {
       case 'BTC':
       case 'ETH':
+      case 'SOL':
+      case 'MSTR':
         avgPrices[symbol] = ceil(avgPrices[symbol]);
         break;
       case 'TOPIA':
@@ -39,7 +41,6 @@ async function getPrice() {
         break;
       case 'XRP':
       case 'RUNE':
-      case 'MSTR':
         avgPrices[symbol] = round(avgPrices[symbol]);
         break;
       case 'PNDC':

@@ -11,6 +11,7 @@ const PRICE_REFRESH_INTERVAL = 360;
 function App() {
   const [btc, setBtc] = useState('0');
   const [eth, setEth] = useState('0');
+  const [sol, setSol] = useState('0');
   const [xrp, setXrp] = useState('0');
   const [topia, setTopia] = useState('0');
   const [rune, setRune] = useState('0');
@@ -76,6 +77,7 @@ function App() {
           </div>
           <div className="small-price-container">
             <div id="xrp" className="small-price">XRP {xrp}</div>
+            <div id="sol" className="small-price">SOL {sol}</div>
             <div id="mstr" className="small-price">MSTR {mstr}</div>
             {/* <div id="pork" className="small-price">1 B PORK = {((+pork * ONE_BIL) / +eth).toFixed(2)} ETH</div> */}
           </div>
