@@ -26,9 +26,10 @@ function App() {
   }
 
   async function updatePrices() {
-    const { BTC, ETH, XRP, TOPIA, RUNE, MSTR } = await fetchPrices();
+    const { BTC, ETH, SOL, XRP, TOPIA, RUNE, MSTR } = await fetchPrices();
     setBtc(BTC);
     setEth(ETH);
+    setSol(SOL);
     setXrp(XRP);
     setTopia(TOPIA);
     setRune(RUNE);
