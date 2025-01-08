@@ -19,6 +19,7 @@ const {
   MESSARI_RUNE_DATA_URL,
   MESSARI_PORK_DATA_URL,
   MESSARI_XRP_DATA_URL,
+  MESSARI_AI16Z_DATA_URL,
   COINBASE_BTC_DATA_URL,
   COINBASE_ETH_DATA_URL,
   COINBASE_XRP_DATA_URL,
@@ -73,6 +74,11 @@ const cachedPorkPrices = {
   messari: 0,
 };
 const cachedPndcPrices = {
+  cmc: 0,
+  coingecko: 0,
+  messari: 0,
+};
+const cachedAi16zPrices = {
   cmc: 0,
   coingecko: 0,
   messari: 0,
@@ -290,6 +296,27 @@ async function getMessariPorkPrice() {
   }
 }
 
+async function getMessariAi16zPrice() {
+  try {
+    const resp = await fetch(MESSARI_AI16Z_DATA_URL, {
+      method: 'GET',
+      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
+    });
+    const data = await resp.json();
+    const prices = parseMessariPrices(data, 'AI16Z');
+
+    if (prices.AI16Z) {
+      cachedAi16zPrices.messari = prices.AI16Z;
+    }
+
+    return prices;
+  } catch (e) {
+    console.log('Error retrieving Messari Ai16z price data: ', e);
+    // use cached prices instead
+    return { AI16Z: cachedAi16zPrices.messari };
+  }
+}
+
 async function getCoinGeckoPrice() {
   try {
     const resp = await fetch(COIN_GECKO_DATA_URL);
@@ -324,6 +351,10 @@ async function getCoinGeckoPrice() {
       cachedRunePrices.coingecko = prices.RUNE;
     }
 
+    if (prices.AI16Z) {
+      cachedAi16zPrices.coingecko = prices.AI16Z;
+    }
+
     return prices;
   } catch (e) {
     console.log('Error retrieving CoinGecko price data: ', e);
@@ -336,6 +367,7 @@ async function getCoinGeckoPrice() {
       TOPIA: cachedTopiaPrices.coingecko,
       PORK: cachedPorkPrices.coingecko,
       RUNE: cachedRunePrices.coingecko,
+      AI16Z: cachedAi16zPrices.coingecko,
     };
   }
 }
@@ -379,6 +411,10 @@ async function getCmcPrice() {
       cachedRunePrices.cmc = prices.RUNE;
     }
 
+    if (prices.AI16Z) {
+      cachedAi16zPrices.cmc = prices.AI16Z;
+    }
+
     return prices;
   } catch (e) {
     console.log('Error retrieving CoinMarketCap price data: ', e);
@@ -391,6 +427,7 @@ async function getCmcPrice() {
       TOPIA: cachedTopiaPrices.cmc,
       PORK: cachedPorkPrices.cmc,
       RUNE: cachedRunePrices.cmc,
+      AI16Z: cachedAi16zPrices.coingecko,
     };
   }
 }
@@ -565,6 +602,7 @@ module.exports = [
   getMessariPndcPrice,
   getMessariPorkPrice,
   getMessariXrpPrice,
+  getMessariAi16zPrice,
   getCoinGeckoPrice,
   getCmcPrice,
   getCoinbaseBtcPrice,

@@ -18,6 +18,8 @@ module.exports = {
       else if (symbol === 'hytopia') prices.TOPIA = json[symbol].usd;
       else if (symbol === 'pepefork') prices.PORK = json[symbol].usd;
       else if (symbol === 'thorchain') prices.RUNE = json[symbol].usd;
+      else if (symbol === 'solana') prices.SOL = json[symbol].usd;
+      else if (symbol === 'ai16z') prices.AI16Z = json[symbol].usd;
       else prices[symbol] = json[symbol].usd;
     });
     return prices;

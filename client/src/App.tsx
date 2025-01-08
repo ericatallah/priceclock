@@ -14,7 +14,8 @@ function App() {
   const [sol, setSol] = useState('0');
   const [xrp, setXrp] = useState('0');
   const [topia, setTopia] = useState('0');
-  const [rune, setRune] = useState('0');
+  const [ai16z, setAi16z] = useState('0');
+  // const [rune, setRune] = useState('0');
   // const [pndc, setPndc] = useState('0');
   // const [pork, setPork] = useState('0');
   const [mstr, setMstr] = useState('0');
@@ -26,13 +27,14 @@ function App() {
   }
 
   async function updatePrices() {
-    const { BTC, ETH, SOL, XRP, TOPIA, RUNE, MSTR } = await fetchPrices();
+    const { BTC, ETH, SOL, XRP, TOPIA, AI16Z, MSTR } = await fetchPrices();
     setBtc(BTC);
     setEth(ETH);
     setSol(SOL);
     setXrp(XRP);
     setTopia(TOPIA);
-    setRune(RUNE);
+    setAi16z(AI16Z);
+    // setRune(RUNE);
     // setPndc(PNDC);
     // setPork(PORK);
     setMstr(MSTR);
@@ -73,7 +75,7 @@ function App() {
           <div className="small-price-container">
             <div id="eth" className="small-price">Eth {eth}</div>
             {/* <h2><span>BITCLOCK</span></h2> */}
-            <div id="rune" className="small-price">RUNE {rune}</div>
+            <div id="rune" className="small-price">Ai16z {ai16z}</div>
             <div id="topia" className="small-price">TOP {topia}</div>
           </div>
           <div className="small-price-container">
