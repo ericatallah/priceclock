@@ -20,8 +20,13 @@ async function getPrice() {
 
   for (const priceObj of prices) {
     for (const [symbol, price] of Object.entries(priceObj)) {
-      if (!symbolToPriceArray[symbol]) symbolToPriceArray[symbol] = [];
-      symbolToPriceArray[symbol].push(price);
+      if (!symbolToPriceArray[symbol]) {
+        symbolToPriceArray[symbol] = [];
+      }
+
+      if (!!price) {
+        symbolToPriceArray[symbol].push(price);
+      }
     }
   }
 

@@ -90,7 +90,13 @@ const cachedMSTRPrices = {
 
 async function getCoincapPrice() {
   try {
-    const resp = await fetch(COIN_CAP_DATA_URL);
+    const resp = await fetch(COIN_CAP_DATA_URL, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${process.env.COINCAP_KEY}`,
+        'Accept-Encoding': 'gzip',
+      }
+    });
     const data = await resp.json();
     const prices = parseCoincapPrices(data);
 
