@@ -18,7 +18,7 @@ const CMC_ID_TICKER_MAP = {
 };
 
 module.exports = {
-  COIN_CAP_DATA_URL: 'https://api.coincap.io/v2/assets?ids=bitcoin,thorchain,ethereum,xrp,solana',
+  COIN_CAP_DATA_URL: `https://rest.coincap.io/v3/assets?ids=bitcoin,thorchain,ethereum,xrp,solana&apiKey=${process.env.COINCAP_KEY}`,
   MESSARI_BTC_DATA_URL: 'https://data.messari.io/api/v1/assets/bitcoin/metrics?fields=market_data/price_usd',
   MESSARI_ETH_DATA_URL: 'https://data.messari.io/api/v1/assets/ethereum/metrics?fields=market_data/price_usd',
   MESSARI_SOLANA_DATA_URL: 'https://data.messari.io/api/v1/assets/solana/metrics?fields=market_data/price_usd',
