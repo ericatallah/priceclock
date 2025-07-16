@@ -11,20 +11,12 @@ const {
 const {
   CMC_DATA_URL,
   COIN_GECKO_DATA_URL,
-  MESSARI_BTC_DATA_URL,
-  MESSARI_HYTOPIA_DATA_URL,
   COIN_CAP_DATA_URL,
-  MESSARI_ETH_DATA_URL,
-  MESSARI_PNDC_DATA_URL,
-  MESSARI_RUNE_DATA_URL,
-  MESSARI_PORK_DATA_URL,
-  MESSARI_XRP_DATA_URL,
-  MESSARI_AI16Z_DATA_URL,
+  MESSARI_DATA_URL,
   COINBASE_BTC_DATA_URL,
   COINBASE_ETH_DATA_URL,
   COINBASE_XRP_DATA_URL,
   MSTR_DATA_URL,
-  MESSARI_SOLANA_DATA_URL,
   COINBASE_SOL_DATA_URL,
 } = require('./constants');
 
@@ -134,182 +126,38 @@ async function getCoincapPrice() {
   }
 }
 
-async function getMessariBtcPrice() {
+async function getMessariPrices() {
   try {
-    const resp = await fetch(MESSARI_BTC_DATA_URL, {
+    const resp = await fetch(MESSARI_DATA_URL, {
       method: 'GET',
       headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
     });
     const data = await resp.json();
-    const prices = parseMessariPrices(data, 'BTC');
+    const prices = parseMessariPrices(data);
 
     if (prices.BTC) {
       cachedBtcPrices.messari = prices.BTC;
     }
 
-    return prices;
-  } catch (e) {
-    console.log('Error retrieving Messari BTC price data: ', e);
-    // use cached prices instead
-    return { BTC: cachedBtcPrices.messari };
-  }
-}
-
-async function getMessariEthPrice() {
-  try {
-    const resp = await fetch(MESSARI_ETH_DATA_URL, {
-      method: 'GET',
-      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
-    });
-    const data = await resp.json();
-    const prices = parseMessariPrices(data, 'ETH');
-
     if (prices.ETH) {
       cachedEthPrices.messari = prices.ETH;
     }
-
-    return prices;
-  } catch (e) {
-    console.log('Error retrieving Messari ETH price data: ', e);
-    // use cached prices instead
-    return { ETH: cachedEthPrices.messari };
-  }
-}
-
-async function getMessariSolPrice() {
-  try {
-    const resp = await fetch(MESSARI_SOLANA_DATA_URL, {
-      method: 'GET',
-      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
-    });
-    const data = await resp.json();
-    const prices = parseMessariPrices(data, 'SOL');
-
-    if (prices.SOL) {
-      cachedSolPrices.messari = prices.SOL;
-    }
-
-    return prices;
-  } catch (e) {
-    console.log('Error retrieving Messari SOL price data: ', e);
-    // use cached prices instead
-    return { SOL: cachedSolPrices.messari };
-  }
-}
-
-async function getMessariXrpPrice() {
-  try {
-    const resp = await fetch(MESSARI_XRP_DATA_URL, {
-      method: 'GET',
-      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
-    });
-    const data = await resp.json();
-    const prices = parseMessariPrices(data, 'XRP');
 
     if (prices.XRP) {
       cachedXrpPrices.messari = prices.XRP;
     }
 
-    return prices;
-  } catch (e) {
-    console.log('Error retrieving Messari XRP price data: ', e);
-    // use cached prices instead
-    return { XRP: cachedXrpPrices.messari };
-  }
-}
-
-async function getMessariTopiaPrice() {
-  try {
-    const resp = await fetch(MESSARI_HYTOPIA_DATA_URL, {
-      method: 'GET',
-      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
-    });
-    const data = await resp.json();
-    const prices = parseMessariPrices(data, 'TOPIA');
-
-    if (prices.TOPIA) {
-      cachedTopiaPrices.messari = prices.TOPIA;
-    }
-
-    return prices;
-  } catch (e) {
-    console.log('Error retrieving Messari TOPIA price data: ', e);
-    // use cached prices instead
-    return { TOPIA: cachedTopiaPrices.messari };
-  }
-}
-
-async function getMessariRunePrice() {
-  try {
-    const resp = await fetch(MESSARI_RUNE_DATA_URL, {
-      method: 'GET',
-      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
-    });
-    const data = await resp.json();
-    const prices = parseMessariPrices(data, 'RUNE');
-
     if (prices.RUNE) {
       cachedRunePrices.messari = prices.RUNE;
     }
 
-    return prices;
-  } catch (e) {
-    console.log('Error retrieving Messari RUNE price data: ', e);
-    // use cached prices instead
-    return { RUNE: cachedRunePrices.messari };
-  }
-}
-
-async function getMessariPndcPrice() {
-  try {
-    const resp = await fetch(MESSARI_PNDC_DATA_URL, {
-      method: 'GET',
-      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
-    });
-    const data = await resp.json();
-    const prices = parseMessariPrices(data, 'PNDC');
-
-    if (prices.PNDC) {
-      cachedPndcPrices.messari = prices.PNDC;
+    if (prices.SOL) {
+      cachedSolPrices.messari = prices.SOL;
     }
 
-    return prices;
-  } catch (e) {
-    console.log('Error retrieving Messari PNDC price data: ', e);
-    // use cached prices instead
-    return { PNDC: cachedPndcPrices.messari };
-  }
-}
-
-async function getMessariPorkPrice() {
-  try {
-    const resp = await fetch(MESSARI_PORK_DATA_URL, {
-      method: 'GET',
-      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
-    });
-    const data = await resp.json();
-    const prices = parseMessariPrices(data, 'PORK');
-
-    if (prices.PORK) {
-      cachedPorkPrices.messari = prices.PORK;
+    if (prices.TOPIA) {
+      cachedTopiaPrices.messari = prices.TOPIA;
     }
-
-    return prices;
-  } catch (e) {
-    console.log('Error retrieving Messari PORK price data: ', e);
-    // use cached prices instead
-    return { PORK: cachedPorkPrices.messari };
-  }
-}
-
-async function getMessariAi16zPrice() {
-  try {
-    const resp = await fetch(MESSARI_AI16Z_DATA_URL, {
-      method: 'GET',
-      headers: { 'x-messari-api-key': process.env.MESSARI_KEY }
-    });
-    const data = await resp.json();
-    const prices = parseMessariPrices(data, 'AI16Z');
 
     if (prices.AI16Z) {
       cachedAi16zPrices.messari = prices.AI16Z;
@@ -317,9 +165,17 @@ async function getMessariAi16zPrice() {
 
     return prices;
   } catch (e) {
-    console.log('Error retrieving Messari Ai16z price data: ', e);
+    console.log('Error retrieving Messari price data: ', e);
     // use cached prices instead
-    return { AI16Z: cachedAi16zPrices.messari };
+    return {
+      BTC: cachedBtcPrices.messari,
+      ETH: cachedEthPrices.messari,
+      XRP: cachedXrpPrices.messari,
+      RUNE: cachedRunePrices.messari,
+      SOL: cachedSolPrices.messari,
+      TOPIA: cachedTopiaPrices.messari,
+      AI16Z: cachedAi16zPrices.messari,
+    };
   }
 }
 
@@ -600,15 +456,7 @@ async function getRobinhoodMSTRPrice() {
 
 module.exports = [
   getCoincapPrice,
-  getMessariBtcPrice,
-  getMessariEthPrice,
-  getMessariSolPrice,
-  getMessariTopiaPrice,
-  getMessariRunePrice,
-  getMessariPndcPrice,
-  getMessariPorkPrice,
-  getMessariXrpPrice,
-  getMessariAi16zPrice,
+  getMessariPrices,
   getCoinGeckoPrice,
   getCmcPrice,
   getCoinbaseBtcPrice,

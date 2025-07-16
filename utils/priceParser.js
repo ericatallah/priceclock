@@ -24,7 +24,15 @@ module.exports = {
     });
     return prices;
   },
-  parseMessariPrices: (json, symbol) => json && json.data && json.data.market_data && { [symbol]: +json.data.market_data.price_usd },
+  parseMessariPrices: (json) => {
+    const prices = {};
+    for (const asset of json.data) {
+      console.log(asset.symbol);
+      const price = asset.marketData.priceUsd;
+      prices[asset.symbol] = price;
+    }
+    return prices;
+  },
   parseCoincapPrices: (json) => {
     const prices = {};
     json.data.forEach((item) => {

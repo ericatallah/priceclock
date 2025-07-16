@@ -19,17 +19,7 @@ const CMC_ID_TICKER_MAP = {
 
 module.exports = {
   COIN_CAP_DATA_URL: `https://rest.coincap.io/v3/assets?ids=bitcoin,thorchain,ethereum,xrp,solana&apiKey=${process.env.COINCAP_KEY}`,
-  MESSARI_BTC_DATA_URL: 'https://data.messari.io/api/v1/assets/bitcoin/metrics?fields=market_data/price_usd',
-  MESSARI_ETH_DATA_URL: 'https://data.messari.io/api/v1/assets/ethereum/metrics?fields=market_data/price_usd',
-  MESSARI_SOLANA_DATA_URL: 'https://data.messari.io/api/v1/assets/solana/metrics?fields=market_data/price_usd',
-  MESSARI_HYTOPIA_DATA_URL: 'https://data.messari.io/api/v1/assets/hytopia/metrics?fields=market_data/price_usd',
-  MESSARI_PNDC_DATA_URL: 'https://data.messari.io/api/v1/assets/pndc/metrics?fields=market_data/price_usd',
-  MESSARI_RUNE_DATA_URL: 'https://data.messari.io/api/v1/assets/thorchain/metrics?fields=market_data/price_usd',
-  MESSARI_PORK_DATA_URL: 'https://data.messari.io/api/v1/assets/pepefork/metrics?fields=market_data/price_usd',
-  MESSARI_XRP_DATA_URL: 'https://data.messari.io/api/v1/assets/xrp/metrics?fields=market_data/price_usd',
-  MESSARI_AI16Z_DATA_URL: 'https://data.messari.io/api/v1/assets/ai16z/metrics?fields=market_data/price_usd',
-  // nomics dead
-  //NOMICS_DATA_URL: `https://api.nomics.com/v1/currencies/ticker?key=${process.env.NOMICS_KEY}&ids=BTC,WRLD,ETH,LUNA&convert=USD`,
+  MESSARI_DATA_URL: 'https://api.messari.io/metrics/v2/assets/details?slugs=bitcoin,ethereum,solana,hytopia,thorchain,xrp,ai16z',
   COINBASE_BTC_DATA_URL: 'https://api.coinbase.com/v2/prices/BTC-USD/buy',
   COINBASE_ETH_DATA_URL: 'https://api.coinbase.com/v2/prices/ETH-USD/buy',
   COINBASE_SOL_DATA_URL: 'https://api.coinbase.com/v2/prices/SOL-USD/buy',
