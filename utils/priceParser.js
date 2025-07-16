@@ -27,7 +27,7 @@ module.exports = {
   parseMessariPrices: (json) => {
     const prices = {};
     for (const asset of json.data) {
-      console.log(asset.symbol);
+      // console.log(asset.symbol);
       const price = asset.marketData.priceUsd;
       prices[asset.symbol] = price;
     }
